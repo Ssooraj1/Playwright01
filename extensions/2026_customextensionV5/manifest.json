@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "2026_Customextension",
+  "version": "5.0",
+  "description": "ByPass the Captcha Wherever it occurs",
+  "permissions": [
+    "storage",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "48": "icon48.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}

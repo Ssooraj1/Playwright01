@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "VLD Captcha ByPass",
+  "version": "1.0",
+  "description": "ByPass the Captcha Whereever it occurs",
+  "permissions": ["webRequest", "webRequestBlocking", "storage", "<all_urls>"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "icons": {
+    "48": "icon48.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}

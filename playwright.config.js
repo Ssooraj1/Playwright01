@@ -1,5 +1,11 @@
 // @ts-check
+// @ts-ignore
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Read environment variables from file.
@@ -17,11 +23,14 @@ export default defineConfig({
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
+  // @ts-ignore
   forbidOnly: !!process.env.CI,
   timeout: 80 * 1000,
   /* Retry on CI only */
+  // @ts-ignore
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
+  // @ts-ignore
   workers: process.env.CI ? 10 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
@@ -39,7 +48,15 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: {
+          args: [
+          `--disable-extensions-except=${path.join(__dirname, 'extensions/2026_customextensionV5')}`,
+          `--load-extension=${path.join(__dirname, 'extensions/2026_customextensionV5')}`,
+        ],
+      },
+       },
     },
 
     // {
