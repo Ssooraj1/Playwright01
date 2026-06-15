@@ -13,6 +13,7 @@ test('Shop Internet tab', async ({ page }) => {
     const addresssugg=page.locator('.pca .pcaitem').first();
     await addresssugg.waitFor({state:'visible',timeout:3000});
     await addresssugg.click();
+    //sooraj
     // await page.getByText('Rockwood DrScarborough, ON, M1M 3M9').click();
     // await page.pause();
 });
