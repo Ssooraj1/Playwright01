@@ -50,10 +50,10 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        launchOptions: {
-          args: [
-          `--disable-extensions-except=${path.join(__dirname, 'extensions/2026_customextensionV5')}`,
-          `--load-extension=${path.join(__dirname, 'extensions/2026_customextensionV5')}`,
+        // launchOptions: {
+        //   args: [
+        //   `--disable-extensions-except=${path.join(__dirname, 'extensions/2026_customextensionV5')}`,
+        //   `--load-extension=${path.join(__dirname, 'extensions/2026_customextensionV5')}`,
         ],
       },
        },
