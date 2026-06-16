@@ -1,3 +1,4 @@
+import { chromium } from '@playwright/test';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -5,12 +6,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /**
- * Creates browser context with extension functionality replicated
- * Preserves video/screenshot/trace capabilities
- * @param {Browser} browser - Playwright's browser fixture
- * @returns {Promise<BrowserContext>}
+ * Creates browser context replicating extension functionality
+ * Supports headless, parallel execution, and video recording
+ * @param {number} workerIndex - Playwright worker index for parallel isolation
+ * @returns {Promise<{browser: Browser, context: BrowserContext}>}
  */
-export async function createContextWithExtension(browser) {
+export async function createContextWithExtension(workerIndex = 0) {
   // Blocked URLs from extension
   const blockedUrls = [
     '*://analytics.tiktok.com/*',
@@ -20,20 +21,32 @@ export async function createContextWithExtension(browser) {
     '*://bell-prod-jb0r6z7.ca.ccaiplatform.com/*',
   ];
 
+  // Launch browser WITHOUT extension
+  const browser = await chromium.launch({
+    // Headless controlled by playwright.config.js
+    args: [
+      '--disable-blink-features=AutomationControlled',
+    ],
+  });
+  
+  // Create context with custom headers (replicates extension)
   const context = await browser.newContext({
-    // Replicate extension's header modification
     extraHTTPHeaders: {
       'User-Agent': 'DynatraceSynthetic/1.295.15.20240628-164244',
       'SFTCAPTCHA': 'CAPTCHA'
+    },
+    recordVideo: {
+      dir: 'test-results/videos/',
+      size: { width: 1280, height: 720 }
     }
   });
 
-  // Replicate extension's URL blocking
+  // Block URLs (replicates extension blocking)
   await context.route(new RegExp(blockedUrls.map(u => 
     u.replace(/\*/g, '.*').replace(/\//g, '\\/')
   ).join('|')), route => route.abort());
   
-  return context;
+  return { browser, context };
 }
 
 /**
