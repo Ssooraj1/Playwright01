@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { createContextWithExtension, getPage } from './helpers/browser-context.js';
 
-test('Shop Internet tab', async () => {
-    const context = await createContextWithExtension();
-    const page = await getPage(context);
-  
+test('Shop Internet tab', async ({ }, testInfo) => {
+  const { browser, context } = await createContextWithExtension(testInfo.workerIndex);
+  const page = await getPage(context);
+
+  try {
     await page.goto('https://fesa-www.ids.int.bell.ca');   
     await page.waitForTimeout(5000);
     await page.getByRole('button', { name: 'Accept all cookies' }).click();
@@ -18,11 +19,12 @@ test('Shop Internet tab', async () => {
     const addresssugg = page.locator('.pca .pcaitem').first();
     await addresssugg.waitFor({ state: 'visible', timeout: 3000 });
     await addresssugg.click();
-    // await page.waitForTimeout(20000);
     await page.locator('div.small-title.margin-b-5:visible').isVisible();
     await page.locator('a').filter({ hasText: 'View plans' }).first().click();
     await page.getByText('Your bundle').isVisible();
     await page.getByRole('radio').first().isVisible();
-    await expect(page).toHavetitle(/Your Bundle/);
-    await context.close();
+    await expect(page).toHaveTitle(/Your Bundle/);
+  } finally {
+    await browser.close();
+  }
 });
