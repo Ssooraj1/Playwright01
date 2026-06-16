@@ -54,8 +54,8 @@ export default defineConfig({
         //   args: [
         //   `--disable-extensions-except=${path.join(__dirname, 'extensions/2026_customextensionV5')}`,
         //   `--load-extension=${path.join(__dirname, 'extensions/2026_customextensionV5')}`,
-        ],
-      },
+      //   ],
+      // },
        },
     },
 
