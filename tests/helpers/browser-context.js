@@ -35,10 +35,10 @@ export async function createContextWithExtension(workerIndex = 0) {
       'User-Agent': 'DynatraceSynthetic/1.295.15.20240628-164244',
       'SFTCAPTCHA': 'CAPTCHA'
     },
-    recordVideo: {
-      dir: 'test-results/videos/',
-      size: { width: 1280, height: 720 }
-    }
+    // recordVideo: {
+    //   dir: 'test-results/videos/',
+    //   size: { width: 1280, height: 720 }
+    // }
   });
 
   // Block URLs (replicates extension blocking)
