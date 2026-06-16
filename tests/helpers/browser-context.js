@@ -1,4 +1,3 @@
-import { chromium } from '@playwright/test';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -6,14 +5,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /**
- * Creates browser context with extension functionality for parallel execution
- * Respects headless setting from playwright.config.js
- * @param {number} workerIndex - Playwright worker index for parallel isolation
- * @returns {Promise<{browser: Browser, context: BrowserContext}>}
+ * Creates browser context with extension functionality replicated
+ * Preserves video/screenshot/trace capabilities
+ * @param {Browser} browser - Playwright's browser fixture
+ * @returns {Promise<BrowserContext>}
  */
-export async function createContextWithExtension(workerIndex = 0) {
-  const extensionPath = path.join(__dirname, '../../extensions/2026_customextensionV5');
-  
+export async function createContextWithExtension(browser) {
   // Blocked URLs from extension
   const blockedUrls = [
     '*://analytics.tiktok.com/*',
@@ -23,29 +20,20 @@ export async function createContextWithExtension(workerIndex = 0) {
     '*://bell-prod-jb0r6z7.ca.ccaiplatform.com/*',
   ];
 
-  const browser = await chromium.launch({
-    // headless is controlled by playwright.config.js (currently: false)
-    args: [
-      `--disable-extensions-except=${extensionPath}`,
-      `--load-extension=${extensionPath}`,
-      '--disable-blink-features=AutomationControlled',
-    ],
-  });
-  
   const context = await browser.newContext({
-    // Set custom headers (replicates extension behavior)
+    // Replicate extension's header modification
     extraHTTPHeaders: {
       'User-Agent': 'DynatraceSynthetic/1.295.15.20240628-164244',
       'SFTCAPTCHA': 'CAPTCHA'
     }
   });
 
-  // Block URLs (replicates extension blocking)
+  // Replicate extension's URL blocking
   await context.route(new RegExp(blockedUrls.map(u => 
     u.replace(/\*/g, '.*').replace(/\//g, '\\/')
   ).join('|')), route => route.abort());
   
-  return { browser, context };
+  return context;
 }
 
 /**

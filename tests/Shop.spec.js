@@ -19,9 +19,7 @@ test('Shop Internet tab', async ({ }, testInfo) => {
     const addresssugg = page.locator('.pca .pcaitem').first();
     await addresssugg.waitFor({ state: 'visible', timeout: 3000 });
     await addresssugg.click();
-    await page.locator('div.small-title.margin-b-5:visible').isVisible();
-    await page.locator('a').filter({ hasText: 'View plans' }).first().click();
-    await page.getByText('Your bundle').isVisible();
+    await page.getByRole('link', { name: 'View plans' }).click();
     await page.getByRole('radio').first().isVisible();
     await expect(page).toHaveTitle(/Your Bundle/);
   } finally {
