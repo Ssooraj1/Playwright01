@@ -1,0 +1,11 @@
+{
+    "AGA_Device": {
+        "url": "https://fdsb-www.ids.int.bell.ca"
+    },
+    "AGA_esim": {
+        "url": "https://fdsb-www.ids.int.bell.ca"
+    },
+    "AGA_psim": {
+        "url": "https://fdsb-www.ids.int.bell.ca"
+    }
+}
