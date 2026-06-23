@@ -12,6 +12,7 @@ test('mybell login', async ({ }, testInfo) => {
     await page.getByRole('textbox', { name: 'Password' }).fill('502043425_RGU');
     await page.getByRole('button', { name: 'Log in' }).click();
     await page.waitForTimeout(5000);
+    await page.pause();
   } finally {
     await browser.close();
   }

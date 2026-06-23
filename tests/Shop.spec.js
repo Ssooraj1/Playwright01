@@ -20,7 +20,7 @@ test('Shop Internet tab', async ({ }, testInfo) => {
     await addresssugg.waitFor({ state: 'visible', timeout: 3000 });
     await addresssugg.click();
     await page.getByRole('link', { name: 'View plans' }).click();
-    await page.waitForTimeout(10000);
+    // await page.waitForTimeout(10000);
     await page.getByRole('radio').first().isVisible();
     // await expect(page).toHaveTitle(/Your Bundle/);
   } finally {
