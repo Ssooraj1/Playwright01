@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { createContextWithExtension, getPage } from './helpers/browser-context.js';
 
 test('Shop Internet tab', async ({ }, testInfo) => {
-  const { browser, context } = await createContextWithExtension(testInfo.workerIndex);
+  const { browser, context } = await createContextWithExtension(testInfo.workerIndex, testInfo);
   const page = await getPage(context);
 
   try {

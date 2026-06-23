@@ -3,7 +3,7 @@ import { createContextWithExtension, getPage } from './helpers/browser-context.j
 import testData from '././testdata/aga-flows-data.json';
 
 test('AGA Device', async ({ }, testInfo) => {
-    const { browser, context } = await createContextWithExtension(testInfo.workerIndex);
+    const { browser, context } = await createContextWithExtension(testInfo.workerIndex, testInfo);
     const page = await getPage(context);
     const data = testData['AGA_Device'];
     try {
